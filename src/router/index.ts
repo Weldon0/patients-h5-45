@@ -1,23 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+console.log(import.meta.env.BASE_URL) // 从vite.config.ts文件当中获取的base属性
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
-  ]
+  // mode: 'hash|history|abstract'
+  // 配置不同的路由模式
+  history: createWebHistory(import.meta.env.BASE_URL), // 配置history路由
+  // history: createWebHashHistory('/h5'), // 配置hash模式的路由，可以传入一个基地址
+  routes: []
 })
 
 export default router
