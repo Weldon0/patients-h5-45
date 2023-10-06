@@ -7,7 +7,12 @@ const router = createRouter({
   // 配置不同的路由模式
   history: createWebHistory(import.meta.env.BASE_URL), // 配置history路由
   // history: createWebHashHistory('/h5'), // 配置hash模式的路由，可以传入一个基地址
-  routes: []
+  routes: [
+    {
+      path: '/login',
+      component: () => import('@/views/Login/index.vue')
+    }
+  ]
 })
 
 export default router

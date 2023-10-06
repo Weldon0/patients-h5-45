@@ -35,7 +35,7 @@ instance.interceptors.response.use(
     // 判断后端返回的数据里面的code是不是10000，如果不是，进行错误提示，让当前请求失败
     if (response.data?.code !== 10000) {
       // 错误提示
-      showToast('请求失败')
+      showToast(response.data.message || '请求失败')
       return Promise.reject(response.data)
     }
     return response.data // 数据直接返回
@@ -46,21 +46,32 @@ instance.interceptors.response.use(
       // 退出登录，清空用户信息，跳转登录
       const userStore = useUserStore() // 如果放到外面去，可能会在createPinia之前，调用defineStore
       userStore.delUser()
+      showToast('登录过期，请重新登录')
       router.push('/login')
     }
   }
 )
 
+type Data<T> = {
+  code: number
+  message: string
+  data: T
+}
 /**
  * 请求方法统一封装
- * @param {string} url api的地址
- * @param {string} method 请求方法
- * @param {object} submitData 请求接口的入参
+ * @param {string} url - api的地址
+ * @param {string} method - 请求方法
+ * @param {object} submitData - 请求接口的入参
  * @example
  *  request('/api/list', 'get', { pageSize: 10 })
  */
-const request = (url: string, method: string = 'get', submitData?: object) => {
-  return instance.request({
+const request = <T>(
+  url: string,
+  method: string = 'get',
+  submitData?: object
+) => {
+  // 第二个类型表示的是接口返回的数据类型
+  return instance.request<T, Data<T>>({
     url,
     method,
     // 如果是get请求key是params，如果是post请求，key是data
