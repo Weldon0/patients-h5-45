@@ -24,3 +24,11 @@ export type TUser = {
    */
   token: string
 }
+
+// 验证码类型
+export type TCodeType =
+  | 'login'
+  | 'register'
+  | 'changeMobile'
+  | 'forgetPassword'
+  | 'bindMobile'
