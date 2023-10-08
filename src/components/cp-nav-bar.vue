@@ -12,9 +12,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 // 手动接收了标题，然后组件内部展示
-defineProps<{
-  title?: string
-}>()
 
 // vue3自定义组件的属性会默认透传组件的跟节点
 // 自定义透传方式，你可以使用useAttrs，可以接收到父组件传递过来的所有的属性和方法
