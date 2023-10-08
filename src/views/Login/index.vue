@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { codeRules, mobileRules, passwordRules } from '@/utils/rules'
 import { showToast } from 'vant'
 import type { FormInstance } from 'vant'
-import { loginApi } from '@/services/user'
+import { getCodeApi, loginApi, loginByCodeApi } from '@/services/user'
 import { useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
 
@@ -15,6 +15,7 @@ const mobile = ref<string>('13230000100')
 const password = ref<string>('abc12345')
 const code = ref('')
 const isPass = ref(true) // 表示是否是密码登录模式
+const isShowCountDown = ref(false) // 是否展示倒计时组件
 
 const show = ref(false)
 const userStore = useUserStore()
@@ -28,7 +29,11 @@ const login = async () => {
     })
     return
   }
-  const res = await loginApi(mobile.value, password.value)
+  // 判断当前登录的方式
+
+  const res = isPass.value
+    ? await loginApi(mobile.value, password.value)
+    : await loginByCodeApi(mobile.value, code.value)
   // console.log(res)
 
   userStore.setUser(res.data)
@@ -41,6 +46,11 @@ const login = async () => {
 const sendCode = async () => {
   // 1、校验手机号的表单
   await form.value?.validate('mobile')
+  // 开始发送验证码
+  await getCodeApi(mobile.value, 'login')
+  // 2、发送验证码的流程，发送验证码的时候需要进行倒计时
+  isShowCountDown.value = true // 校验通过之后展示倒计时组件
+  showToast('发送验证码成功')
 }
 </script>
 
@@ -87,7 +97,16 @@ const sendCode = async () => {
         placeholder="请输入验证码"
       >
         <template #button>
-          <span @click="sendCode" class="btn-send">发送验证🐴</span>
+          <span v-if="!isShowCountDown" @click="sendCode" class="btn-send"
+            >发送验证🐴</span
+          >
+          <van-count-down
+            style="--van-count-down-text-color: #16c2a380"
+            format="ss"
+            @finish="isShowCountDown = false"
+            v-else
+            :time="60000"
+          ></van-count-down>
         </template>
       </van-field>
       <div class="cp-cell">
