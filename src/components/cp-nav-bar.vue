@@ -18,9 +18,18 @@ const router = useRouter()
 // 前提是这些属性没有被deinfeProps和defineEmits接收
 // 可以用defineOptions关闭默认透传
 
+const props = defineProps<{
+  back?: () => void
+}>()
+
 // 使用vue3.3版本以上的写法
 const clickLeft = () => {
   // 全局的路由对象在组件内部是通过userRouter获取，userRouter是通过vue-router里面导出
+  // 点击了返回按钮的时候，判断父组件是否传递了back方法，如果传递了back方法，执行back方法
+  if (props.back) {
+    props.back()
+    return
+  }
   if (history.state.back) {
     // 可以返回上一级 this.$router.back()
     router.back()

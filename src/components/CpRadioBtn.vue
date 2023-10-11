@@ -5,6 +5,10 @@ defineProps<{
     value: string | number
   }[]
 }>()
+
+// modelValue属性和一个update:modelValue方法
+
+const genderValue = defineModel()
 </script>
 
 <template>
@@ -14,6 +18,8 @@ defineProps<{
       :key="item.value"
       class="item"
       href="javascript:"
+      :class="{ active: genderValue === item.value }"
+      @click="genderValue = item.value"
     >
       {{ item.label }}
     </a>

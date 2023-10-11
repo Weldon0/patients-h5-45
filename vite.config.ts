@@ -10,7 +10,12 @@ import path from 'path' // node自带的
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      //   开启defineModel
+      script: {
+        defineModel: true
+      }
+    }),
     // 可以自动导入src/components里面的组件
     Components({
       dts: false,
