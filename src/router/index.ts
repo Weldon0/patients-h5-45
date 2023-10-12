@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores'
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+nprogress.configure({
+  showSpinner: false
+})
 
 console.log(import.meta.env.BASE_URL) // 从vite.config.ts文件当中获取的base属性
 
@@ -65,12 +70,17 @@ const router = createRouter({
 const whiteList = ['/login']
 router.beforeEach((to) => {
   document.title = `优医问诊-${to.meta.title}`
+  nprogress.start()
+  // 开启进度条效果
   const userStore = useUserStore()
   // 没有token，还去了需要权限的页面，重定向到login
   if (!userStore.user?.token && !whiteList.includes(to.path)) {
     return '/login'
   }
   // 不做任何处理表示放行
+})
+router.afterEach(() => {
+  nprogress.done()
 })
 
 export default router
