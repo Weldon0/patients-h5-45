@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<div id="test">
+  <div class="info">
+    <div class="age">
+      <div class="box"></div>
+    </div>
+  </div>
+  <div class="address">
+    <div class="name">
+      <div class="heima"></div>
+    </div>
+  </div>
+</div>
+<script>
+  //  递归
+  const testId = document.getElementById('test');
+  // const target = testId.target; clearName
+  // console.log(testId.children)
+  getClassName(testId)
+
+  function getClassName(ele) {
+    console.log(ele.classList[0]) // 打印类型
+    const children = ele.children;
+    for (let i = 0; i < children.length; i ++) {
+      getClassName(children[i])
+    }
+  }
+</script>
+</body>
+</html>
