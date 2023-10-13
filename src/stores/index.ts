@@ -13,3 +13,4 @@ pinia.use(persist)
 export default pinia
 
 export * from './modules/user' // 把user模块里面的东西全部导入之后直接导出
+export * from './modules/consult' // 把问诊仓库里面的东西全部导入之后直接导出

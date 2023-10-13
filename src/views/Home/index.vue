@@ -3,9 +3,13 @@ import KnowledgeList from '@/views/Home/components/KnowledgeList.vue'
 import type { KnowledgeType } from '@/types/consult'
 import { ref } from 'vue'
 import FollowDoctor from '@/views/Home/components/FollowDoctor.vue'
+import { useConsultStore } from '@/stores'
+import { ConsultType } from '@/enums'
 
 // 定义一个active变量
 const active = ref<KnowledgeType>('recommend')
+
+const consultStore = useConsultStore()
 </script>
 
 <template>
@@ -28,7 +32,11 @@ const active = ref<KnowledgeType>('recommend')
           </router-link>
         </van-col>
         <van-col span="8">
-          <router-link to="/consult/fast" class="nav">
+          <router-link
+            @click="consultStore.setType(ConsultType.Fast)"
+            to="/consult/fast"
+            class="nav"
+          >
             <cp-svg-icon name="home-graphic"></cp-svg-icon>
             <p class="title">极速问诊</p>
             <p class="desc">20s医生极速回复</p>
